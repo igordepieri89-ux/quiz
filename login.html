@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<body>
+
+<h2>Login do Aluno</h2>
+
+<input id="nome" placeholder="Nome">
+<input id="senha" type="password" placeholder="Senha">
+<button onclick="login()">Entrar</button>
+
+<h3>Cadastro</h3>
+<input id="cnome" placeholder="Nome">
+<input id="csenha" type="password" placeholder="Senha">
+<button onclick="cadastrar()">Cadastrar</button>
+
+<script>
+function cadastrar(){
+  let alunos = JSON.parse(localStorage.getItem("alunos") || "[]");
+  alunos.push({nome: cnome.value, senha: csenha.value});
+  localStorage.setItem("alunos", JSON.stringify(alunos));
+  alert("Cadastrado!");
+}
+
+function login(){
+  let alunos = JSON.parse(localStorage.getItem("alunos") || "[]");
+  let aluno = alunos.find(a => a.nome === nome.value && a.senha === senha.value);
+  if(aluno){
+    localStorage.setItem("logado", aluno.nome);
+    location.href="aluno.html";
+  } else alert("Erro no login");
+}
+</script>
+
+</body>
+</html>
