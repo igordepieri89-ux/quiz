@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Ranking</h2>
+<ol id="lista"></ol>
+
+<script>
+let notas = JSON.parse(localStorage.getItem("notas") || "[]");
+
+notas.sort((a,b)=>b.pontuacao-a.pontuacao);
+
+notas.forEach(n=>{
+  lista.innerHTML += `<li>${n.nome} - ${n.pontuacao}%</li>`;
+});
+</script>
+
+</body>
+</html>
