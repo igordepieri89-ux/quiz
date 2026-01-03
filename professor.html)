@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Painel do Professor</h2>
+
+<ul id="dados"></ul>
+
+<script>
+let notas = JSON.parse(localStorage.getItem("notas") || "[]");
+
+notas.forEach(n=>{
+  dados.innerHTML += `<li>${n.nome} - ${n.pontuacao}%</li>`;
+});
+</script>
+
+</body>
+</html>
