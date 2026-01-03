@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Educacional</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  padding: 20px;
+}
+
+.container {
+  max-width: 700px;
+  background: #fff;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+.pergunta {
+  margin-bottom: 20px;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+#tempo {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.anuncio {
+  background: #eaeaea;
+  text-align: center;
+  padding: 15px;
+  margin: 20px 0;
+  border: 1px dashed #aaa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Quiz ENEM / Escolar</h1>
+
+<div class="anuncio">
+📢 Espaço para anúncio (Google AdSense)
+</div>
+
+<h2>Escolha o nível</h2>
+<select id="nivel">
+  <option value="iniciante">Iniciante</option>
+  <option value="medio">Médio</option>
+  <option value="avancado">Avançado</option>
+</select>
+
+<button onclick="iniciarQuiz()">Iniciar Quiz</button>
+
+<p id="tempo"></p>
+
+<form id="quiz"></form>
+
+<button onclick="finalizarQuiz()">Finalizar</button>
+
+<h2 id="resultado"></h2>
+</div>
+
+<script>
+// BANCO DE PERGUNTAS
+const perguntas = {
+  iniciante: [
+    {q:"Quanto é 5 + 5?", op:["8","10","12"], c:1},
+    {q:"Capital do Brasil?", op:["Rio","Brasília","SP"], c:1}
+  ],
+  medio: [
+    {q:"Raiz de 81?", op:["7","8","9"], c:2},
+    {q:"7 x 8?", op:["54","56","64"], c:1}
+  ],
+  avancado: [
+    {q:"Área do círculo (r=3)?", op:["6π","9π","12π"], c:1},
+    {q:"Derivada de x²?", op:["x","2x","x²"], c:1}
+  ]
+};
+
+let tempo = 60;
+let timer;
+
+function iniciarQuiz() {
+  document.getElementById("quiz").innerHTML = "";
+  tempo = 60;
+  clearInterval(timer);
+
+  timer = setInterval(() => {
+    tempo--;
+    document.getElementById("tempo").innerHTML = "⏱ Tempo: " + tempo + "s";
+    if (tempo <= 0) finalizarQuiz();
+  }, 1000);
+
+  const nivel = document.getElementById("nivel").value;
+  const quiz = document.getElementById("quiz");
+
+  perguntas[nivel].forEach((p, i) => {
+    let html = `<div class="pergunta"><p>${i+1}) ${p.q}</p>`;
+    p.op.forEach((op, j) => {
+      html += `<input type="radio" name="q${i}" value="${j}"> ${op}<br>`;
+    });
+    html += "</div>";
+    quiz.innerHTML += html;
+  });
+}
+
+function finalizarQuiz() {
+  clearInterval(timer);
+  const nivel = document.getElementById("nivel").value;
+  let pontos = 0;
+
+  perguntas[nivel].forEach((p, i) => {
+    let r = document.querySelector(`input[name="q${i}"]:checked`);
+    if (r && Number(r.value) === p.c) pontos++;
+  });
+
+  let total = perguntas[nivel].length;
+  let porcentagem = Math.round((pontos / total) * 100);
+
+  let nivelAluno =
+    porcentagem >= 70 ? "Avançado" :
+    porcentagem >= 40 ? "Médio" : "Iniciante";
+
+  document.getElementById("resultado").innerHTML =
+    `✔ Acertos: ${pontos}/${total}<br>
+     📊 Resultado: ${porcentagem}%<br>
+     🧠 Nível: ${nivelAluno}`;
+
+  // SALVAR RESULTADO
+  localStorage.setItem("ultimoResultado", porcentagem + "%");
+}
+</script>
+
+</body>
+</html>
