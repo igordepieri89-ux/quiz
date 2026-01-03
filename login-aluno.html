@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Login do Aluno</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  padding: 20px;
+}
+
+.container {
+  max-width: 400px;
+  background: #fff;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+h1 {
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.hidden {
+  display: none;
+}
+
+.painel {
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="container" id="loginBox">
+  <h1>Login do Aluno</h1>
+
+  <input type="text" id="loginNome" placeholder="Nome do aluno">
+  <input type="password" id="loginSenha" placeholder="Senha">
+
+  <button onclick="login()">Entrar</button>
+
+  <p style="text-align:center;">
+    Não tem conta?
+    <a href="#" onclick="mostrarCadastro()">Cadastrar</a>
+  </p>
+</div>
+
+<!-- CADASTRO -->
+<div class="container hidden" id="cadastroBox">
+  <h1>Cadastro</h1>
+
+  <input type="text" id="cadNome" placeholder="Nome do aluno">
+  <input type="password" id="cadSenha" placeholder="Senha">
+
+  <button onclick="cadastrar()">Cadastrar</button>
+
+  <p style="text-align:center;">
+    <a href="#" onclick="mostrarLogin()">Voltar ao login</a>
+  </p>
+</div>
+
+<!-- PAINEL DO ALUNO -->
+<div class="container hidden painel" id="painelAluno">
+  <h1>Bem-vindo 👋</h1>
+  <p id="nomeAluno"></p>
+
+  <button onclick="irQuiz()">Ir para o Simulado ENEM</button>
+  <br><br>
+  <button onclick="sair()">Sair</button>
+</div>
+
+<script>
+// MOSTRAR TELAS
+function mostrarCadastro() {
+  loginBox.classList.add("hidden");
+  cadastroBox.classList.remove("hidden");
+}
+
+function mostrarLogin() {
+  cadastroBox.classList.add("hidden");
+  loginBox.classList.remove("hidden");
+}
+
+// CADASTRAR
+function cadastrar() {
+  let nome = cadNome.value;
+  let senha = cadSenha.value;
+
+  if (!nome || !senha) {
+    alert("Preencha todos os campos");
+    return;
+  }
+
+  localStorage.setItem("alunoNome", nome);
+  localStorage.setItem("alunoSenha", senha);
+
+  alert("Cadastro realizado com sucesso!");
+  mostrarLogin();
+}
+
+// LOGIN
+function login() {
+  let nome = loginNome.value;
+  let senha = loginSenha.value;
+
+  let nomeSalvo = localStorage.getItem("alunoNome");
+  let senhaSalva = localStorage.getItem("alunoSenha");
+
+  if (nome === nomeSalvo && senha === senhaSalva) {
+    localStorage.setItem("logado", "sim");
+    abrirPainel();
+  } else {
+    alert("Nome ou senha incorretos");
+  }
+}
+
+// ABRIR PAINEL
+function abrirPainel() {
+  loginBox.classList.add("hidden");
+  cadastroBox.classList.add("hidden");
+  painelAluno.classList.remove("hidden");
+
+  nomeAluno.inne
