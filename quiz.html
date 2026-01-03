@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Simulado ENEM</h2>
+
+<p>Quanto é 5 + 5?</p>
+<input type="radio" name="q1" value="10">10
+<input type="radio" name="q1" value="8">8
+
+<br><br>
+<button onclick="finalizar()">Finalizar</button>
+
+<script>
+function finalizar(){
+  let r = document.querySelector('input[name="q1"]:checked');
+  let nota = r && r.value == 10 ? 100 : 0;
+
+  let notas = JSON.parse(localStorage.getItem("notas") || "[]");
+  notas.push({
+    nome: localStorage.getItem("logado"),
+    pontuacao: nota
+  });
+
+  localStorage.setItem("notas", JSON.stringify(notas));
+  alert("Nota salva!");
+  location.href="aluno.html";
+}
+</script>
+
+</body>
+</html>
