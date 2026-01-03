@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Painel do Aluno</h2>
+<p id="aluno"></p>
+
+<button onclick="irQuiz()">Fazer Simulado</button>
+<button onclick="sair()">Sair</button>
+
+<h3>Histórico</h3>
+<ul id="historico"></ul>
+
+<script>
+let nome = localStorage.getItem("logado");
+if(!nome) location.href="login.html";
+aluno.innerHTML = nome;
+
+let dados = JSON.parse(localStorage.getItem("notas") || "[]");
+dados.filter(d=>d.nome===nome).forEach(d=>{
+  historico.innerHTML += `<li>${d.pontuacao}%</li>`;
+});
+
+function irQuiz(){
+  location.href="quiz.html";
+}
+
+function sair(){
+  localStorage.removeItem("logado");
+  location.href="login.html";
+}
+</script>
+
+</body>
+</html>
